@@ -4,15 +4,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FBF8EF"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="411dp"
+        android:layout_height="732dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-3dp">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2048"
+            android:textAlignment="center"
+            android:textSize="60sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="52dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="69dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="227dp"
+                android:layout_height="60dp"
+                android:background="#ED995C"
+                android:text="New Game" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="47dp" />
+
+        <LinearLayout
+            android:layout_width="423dp"
+            android:layout_height="420dp"
+            android:orientation="horizontal">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:background="#BBADA0"
+                android:text="SCORE"
+                android:textAlignment="center" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="170dp"
+                android:layout_height="170dp"
+                android:layout_weight="1"
+                android:background="#BBADA0"
+                android:text="BEST"
+                android:textAlignment="center" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
