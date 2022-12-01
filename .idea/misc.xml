@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2921401977539062" />
         <entry key="app/src/main/res/layout/game.xml" value="0.2874176025390625" />
+        <entry key="app/src/main/res/layout/game_over.xml" value="0.2609375" />
       </map>
     </option>
   </component>

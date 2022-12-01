@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBF8EF"
-    tools:context=".MainActivity">
+    android:background="#FBF8EF">
 
     <LinearLayout
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-3dp"
         android:layout_width="411dp"
         android:layout_height="732dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-3dp">
+        android:orientation="vertical">
 
         <Space
             android:layout_width="match_parent"
@@ -22,7 +19,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2048"
+            android:text="Game over!"
             android:textAlignment="center"
             android:textSize="60sp" />
 
@@ -45,8 +42,8 @@
                 android:layout_width="227dp"
                 android:layout_height="60dp"
                 android:background="#ED995C"
-                android:onClick="onClickNewGame"
-                android:text="New Game" />
+                android:onClick="onClickTryAgain"
+                android:text="Try again" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -79,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="PREVIOUS SCORE"
+                    android:text="SCORE"
                     android:textAlignment="center" />
 
                 <Space
@@ -146,5 +143,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

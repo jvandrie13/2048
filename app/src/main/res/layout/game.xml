@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#FBF8EF">
 
     <LinearLayout
         android:layout_width="409dp"
@@ -17,26 +18,45 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="485dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="170dp"
-                android:layout_height="77dp"
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="2048"
-                android:textSize="60sp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="2048"
+                    android:textSize="60sp" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Join the tiles to get 2048!" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="208dp"
-                android:layout_height="224dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="85dp"
+                    android:layout_height="15dp"
                     android:layout_weight="1" />
 
                 <LinearLayout
@@ -54,7 +74,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="SCORE" />
+                        android:text="SCORE"
+                        android:textAlignment="center" />
 
                     <Space
                         android:layout_width="wrap_content"
@@ -66,7 +87,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="BEST" />
+                        android:text="BEST"
+                        android:textAlignment="center" />
 
                     <Space
                         android:layout_width="wrap_content"
@@ -109,6 +131,36 @@
                         android:text="0"
                         android:textAlignment="center"
                         android:textSize="34sp" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="25px"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/button4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="New Game" />
 
                     <Space
                         android:layout_width="wrap_content"
