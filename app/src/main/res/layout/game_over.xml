@@ -114,7 +114,7 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/prevScore_View"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
                     android:layout_weight="1"
@@ -131,7 +131,7 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/highScore_View"
                     android:layout_width="170dp"
                     android:layout_height="170dp"
                     android:layout_weight="1"
