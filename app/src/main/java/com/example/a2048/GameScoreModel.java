@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 /**
- * ViewModel to contain the values used with GameActivty, namely
+ * ViewModel to contain the values used with Game, namely
  * to store/display the high score and current score.
  */
 public class GameScoreModel extends ViewModel {
