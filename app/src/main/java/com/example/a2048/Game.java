@@ -9,6 +9,8 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class Game extends AppCompatActivity {
+    private Grid grid;
+
 
     GameScoreModel model;
     TextView currScore, highScore;
@@ -25,6 +27,9 @@ public class Game extends AppCompatActivity {
 
         currScore = findViewById(R.id.currScore_view);
         highScore = findViewById(R.id.bestScore_view);
+
+        grid = findViewById(R.id.grid);
+
     }
 
     /**
