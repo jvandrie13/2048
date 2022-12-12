@@ -135,6 +135,7 @@ public class Game extends AppCompatActivity {
 
 // Show the PopupWindow
             popupWindow.showAtLocation(grid, Gravity.CENTER, 0, 0);
+            popUpShown = true;
         }
     }
 }
