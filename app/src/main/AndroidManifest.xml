@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:label="Game" android:name=".Game"/>
+        <activity android:label="GameOver" android:name=".GameOver"/>
     </application>
 
 </manifest>

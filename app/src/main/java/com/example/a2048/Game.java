@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -67,6 +68,11 @@ public class Game extends AppCompatActivity {
      * Update the player's score depending on the tiles they have merged
      * @param i
      */
+    public void GameOver(){
+        Intent intent = new Intent(this, GameOver.class);
+        this.startActivity(intent);
+    }
+
     public void updateScore(int i){
         currentScore = i;
         currScore.setText(Integer.toString(currentScore));
@@ -82,13 +88,10 @@ public class Game extends AppCompatActivity {
      */
     public void updateScoreData(int currentScore){
         // Update currentScore
-        //model.getCurrentScore().setValue(currentScore);     // Update ViewModel value
-
         SharedPreferences.Editor scoreUpdate = sharedPref.edit();
 
         // If current score > high score
         if(currentScore > model.getHighScore().getValue()){
-            //model.getHighScore().setValue(currentScore); // Update high score to be current score
             scoreUpdate.putString("HIGH_SCORE", (String.valueOf(currentScore)));
         }
         scoreUpdate.putString("PREV_SCORE", String.valueOf(currentScore));
@@ -109,6 +112,4 @@ public class Game extends AppCompatActivity {
         scoreUpdate.putString("PREV_SCORE", (String.valueOf(currentScore)));
         scoreUpdate.apply();
     }
-
-
 }

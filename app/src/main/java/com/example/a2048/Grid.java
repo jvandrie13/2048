@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -244,6 +245,7 @@ public class Grid extends GridLayout {
 
         // If we get to this point, the game must be over.
         System.out.println("Game Over");
+        Game.getGame().GameOver();
     }
 
     public int getCurrentScore(Card[][] gameBoard) {
@@ -254,6 +256,9 @@ public class Grid extends GridLayout {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[i].length; j++) {
                 score += gameBoard[i][j].getCount();
+                if (gameBoard[i][j].getCount() == 32){
+
+                }
             }
         }
 
