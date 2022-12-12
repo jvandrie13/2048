@@ -256,8 +256,8 @@ public class Grid extends GridLayout {
         for (int i = 0; i < gameBoard.length; i++) {
             for (int j = 0; j < gameBoard[i].length; j++) {
                 score += gameBoard[i][j].getCount();
-                if (gameBoard[i][j].getCount() == 32){
-
+                if (gameBoard[i][j].getCount() == 8){
+                    Game.getGame().popUp();
                 }
             }
         }

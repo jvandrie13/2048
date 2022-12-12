@@ -11,9 +11,12 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -22,11 +25,13 @@ import java.util.Set;
 public class Game extends AppCompatActivity {
     private Grid grid;
     Button newGame;
+    boolean popUpShown = false;
 
     public static Game game = null;
     GameScoreModel model;
     TextView currScore, highScore;
     String newCurrScore, newHighScore;
+
     public Game() {
         game = this;
     }
@@ -59,15 +64,12 @@ public class Game extends AppCompatActivity {
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                grid.onSizeChanged(1125, 1537, 0 ,0);
+                grid.onSizeChanged(1125, 1537, 0, 0);
             }
         });
     }
 
-    /**
-     * Update the player's score depending on the tiles they have merged
-     * @param i
-     */
+
     public void GameOver(){
         Intent intent = new Intent(this, GameOver.class);
         this.startActivity(intent);
@@ -84,15 +86,17 @@ public class Game extends AppCompatActivity {
     /**
      * Update the currentScore stored in the GameScoreModel
      * and in SharedPreferences when the score changes during Game.
+     *
      * @param currentScore
      */
-    public void updateScoreData(int currentScore){
+    public void updateScoreData(int currentScore) {
         // Update currentScore
         SharedPreferences.Editor scoreUpdate = sharedPref.edit();
 
         // If current score > high score
         if(currentScore > model.getHighScore().getValue()){
             scoreUpdate.putString("HIGH_SCORE", (String.valueOf(currentScore)));
+
         }
         scoreUpdate.putString("PREV_SCORE", String.valueOf(currentScore));
         scoreUpdate.apply();
@@ -104,12 +108,33 @@ public class Game extends AppCompatActivity {
      * the user's high score value is stored in SharedPreferences.
      */
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
         // Access SharedPreferences to update persisted score values
         SharedPreferences.Editor scoreUpdate = sharedPref.edit();
         scoreUpdate.putString("HIGH_SCORE", (String.valueOf(highScore)));
         scoreUpdate.putString("PREV_SCORE", (String.valueOf(currentScore)));
         scoreUpdate.apply();
+    }
+
+    public void popUp() {
+        if (popUpShown == false) {
+            // Create a new instance of the PopupWindow class
+            PopupWindow popupWindow = new PopupWindow(this);
+
+// Set the content view of the PopupWindow to a custom layout that contains a TextView and a Button
+            View customView = getLayoutInflater().inflate(R.layout.popup, null);
+            popupWindow.setContentView(customView);
+
+// Set the width and height of the PopupWindow
+            popupWindow.setWidth(500);
+            popupWindow.setHeight(500);
+
+// Set the focusable property of the PopupWindow to true
+            popupWindow.setFocusable(true);
+
+// Show the PopupWindow
+            popupWindow.showAtLocation(grid, Gravity.CENTER, 0, 0);
+        }
     }
 }
