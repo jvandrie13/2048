@@ -1,10 +1,6 @@
 package com.example.a2048;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,10 +15,6 @@ public class Grid extends GridLayout {
 
     private static final int GRID_SIZE = 4;
     public static Card[][] cards = new Card[4][4];
-    private static List<Point> emptyPoints = new ArrayList<Point>();
-    public int num[][] = new int[4][4];
-    public boolean hasTouched = false;
-
 
     public Grid(Context context) {
         super(context);
@@ -69,22 +61,23 @@ public class Grid extends GridLayout {
 
     private static void addRandomNum() {
         // Create a list of empty positions on the grid
-        List<Point> emptyPoints = new ArrayList<>();
+        List<int[]> emptyPositions = new ArrayList<>();
         for (int y = 0; y < GRID_SIZE; ++y) {
             for (int x = 0; x < GRID_SIZE; ++x) {
                 if (cards[x][y].getCount() == 0) {
-                    emptyPoints.add(new Point(x, y));
+                    emptyPositions.add(new int[] {x, y});
                 }
             }
         }
 
         // Choose a random position from the list of empty positions
         Random random = new Random();
-        Point p = emptyPoints.remove(random.nextInt(emptyPoints.size()));
+        int[] chosenPosition = emptyPositions.remove(random.nextInt(emptyPositions.size()));
 
         // Set the value of the chosen position to either 2 or 4, with a probability of 0.9 and 0.1 respectively
-        cards[p.x][p.y].setCount(random.nextDouble() < 0.9 ? 2 : 4);
+        cards[chosenPosition[0]][chosenPosition[1]].setCount(random.nextDouble() < 0.9 ? 2 : 4);
     }
+
 
 
     public static void startGame() {
@@ -224,6 +217,8 @@ public class Grid extends GridLayout {
         }
         if (moved) {
             addRandomNum();
+            getCurrentScore(cards);
+
             checkGameOver();
         }
     }
@@ -231,22 +226,41 @@ public class Grid extends GridLayout {
 
 
     private void checkGameOver() {
-        boolean isOver = true;
-        ALL:
-        for (int y = 0; y < 4; ++y) {
-            for (int x = 0; x < 4; ++x) {
+        // Loop through all the cards in the game
+        for(int y=0; y<4; y++) {
+            for(int x=0; x<4; x++) {
+                // Check if the current card has a count of 0 or a matching
+                // adjacent card
                 if (cards[x][y].getCount() == 0 ||
-                        (x <= 2 && cards[x][y].getCount() == cards[x + 1][y].getCount()) ||
-                        (y <= 2 && cards[x][y].getCount() == cards[x][y + 1].getCount())) {
-                    isOver = false;
-                    break ALL;
+                        (x<=2 && cards[x][y].getCount() == cards[x+1][y].getCount()) ||
+                        (y<=2 && cards[x][y].getCount() == cards[x][y+1].getCount())) {
+                    // If so, the game is not over, so we return early
+                    return;
                 }
             }
         }
-        if (isOver) {
 
-        }
+        // If we get to this point, the game must be over.
+        System.out.println("Game Over");
     }
+
+    public int getCurrentScore(Card[][] gameBoard) {
+        int score = 0;
+
+        // Loop through each cell of the game board and add the value of
+        // each cell to the score.
+        for (int i = 0; i < gameBoard.length; i++) {
+            for (int j = 0; j < gameBoard[i].length; j++) {
+                score += gameBoard[i][j].getCount();
+            }
+        }
+
+        return score;
+    }
+
+
+
+
 
 
     class Listener implements View.OnTouchListener {
@@ -255,16 +269,6 @@ public class Grid extends GridLayout {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-
-            if (!hasTouched) {
-                hasTouched = true;
-            }
-//            score = MainActivity.score;
-            for (int y = 0; y < 4; ++y) {
-                for (int x = 0; x < 4; ++x) {
-                    num[y][x] = cards[y][x].getCount();
-                }
-            }
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     startX = motionEvent.getX();
@@ -290,6 +294,6 @@ public class Grid extends GridLayout {
             }
             return true;
         }
-
     }
+
 }
