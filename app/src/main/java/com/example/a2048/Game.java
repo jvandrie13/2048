@@ -56,6 +56,7 @@ public class Game extends AppCompatActivity {
         model.getCurrentScore().setValue(currentScore);
         newCurrScore = String.format(Locale.getDefault(), "%d", currentScore);
         model.getCurrScoreStr().setValue(newCurrScore);
+        grid.getCurrentScore(grid.cards);
 
         // If currentScore > highScore, update the highScore
         if(currentScore > model.getHighScore().getValue()){
