@@ -22,6 +22,11 @@ import android.widget.TextView;
 import java.util.Locale;
 import java.util.Set;
 
+/**
+ * Primary class for performing game play.
+ * Contains methods for updating the score and method calls to generate
+ * the grid board.
+ */
 public class Game extends AppCompatActivity {
     private Grid grid;
     Button newGame;
@@ -30,7 +35,6 @@ public class Game extends AppCompatActivity {
     public static Game game = null;
     GameScoreModel model;
     TextView currScore, highScore;
-    String newCurrScore, newHighScore;
 
     public Game() {
         game = this;
@@ -56,8 +60,9 @@ public class Game extends AppCompatActivity {
         sharedPref = getSharedPreferences("application", Context.MODE_PRIVATE);
 
         model = new ViewModelProvider(this).get(GameScoreModel.class);
+
         // Set the "BEST" score value
-        highScore.setText(sharedPref.getString("HIGH_SCORE", "1")); // This makes it crash :/
+        highScore.setText(sharedPref.getString("HIGH_SCORE", "1"));
 
         grid = findViewById(R.id.grid);
         newGame = findViewById(R.id.newGame);
@@ -75,6 +80,11 @@ public class Game extends AppCompatActivity {
         this.startActivity(intent);
     }
 
+    /**
+     * Updates the int value of the user's current score
+     * Calls updateScoreData() to reflect score changes in the UI
+     * @param i
+     */
     public void updateScore(int i){
         currentScore = i;
         currScore.setText(Integer.toString(currentScore));
@@ -84,7 +94,7 @@ public class Game extends AppCompatActivity {
     }
 
     /**
-     * Update the currentScore stored in the GameScoreModel
+     * Update the currentScore stored displayed on the UI, stored in the view model,
      * and in SharedPreferences when the score changes during Game.
      *
      * @param currentScore
@@ -93,10 +103,12 @@ public class Game extends AppCompatActivity {
         // Update currentScore
         SharedPreferences.Editor scoreUpdate = sharedPref.edit();
 
-        // If current score > high score
-        if(currentScore > model.getHighScore().getValue()){
-            scoreUpdate.putString("HIGH_SCORE", (String.valueOf(currentScore)));
+        int currHighScore = Integer.valueOf(highScore.getText().toString());
 
+        // If current score > high score
+        if(currentScore > currHighScore){ // FIX ME
+            scoreUpdate.putString("HIGH_SCORE", (String.valueOf(currentScore)));
+            highScore.setText(String.valueOf(currentScore));
         }
         scoreUpdate.putString("PREV_SCORE", String.valueOf(currentScore));
         scoreUpdate.apply();
@@ -112,7 +124,7 @@ public class Game extends AppCompatActivity {
         super.onPause();
         // Access SharedPreferences to update persisted score values
         SharedPreferences.Editor scoreUpdate = sharedPref.edit();
-        scoreUpdate.putString("HIGH_SCORE", (String.valueOf(highScore)));
+        scoreUpdate.putString("HIGH_SCORE", (String.valueOf(highScore.getText())));
         scoreUpdate.putString("PREV_SCORE", (String.valueOf(currentScore)));
         scoreUpdate.apply();
     }

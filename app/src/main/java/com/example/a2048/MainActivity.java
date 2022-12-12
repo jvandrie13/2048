@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     TextView highScoreView;
     TextView prevScoreView;
     SharedPreferences sharedPref;
-    String highScoreStr;
 
 
     @Override
@@ -37,13 +36,10 @@ public class MainActivity extends AppCompatActivity {
         model = new ViewModelProvider(this).get(MainScoreModel.class);
         sharedPref = getSharedPreferences("application", Context.MODE_PRIVATE);
 
-        super.onResume(); // Call to load in values from sharedPreferences
-
         // Update UI to reflect stored Highscore and Previous score values
         final Observer<Integer> scoreObserver = new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable final Integer newScore) {
-                //highScoreView.setText(sharedPref.getString("HIGH_SCORE", "1"));
                 highScoreView.setText(sharedPref.getString("HIGH_SCORE", "1"));
                 prevScoreView.setText(sharedPref.getString("PREV_SCORE", "1"));
             }
@@ -52,26 +48,12 @@ public class MainActivity extends AppCompatActivity {
         model.getHighScore().observe(this, scoreObserver);
     }
 
+    /**
+     * Switches to the Game activity
+     * @param view
+     */
     public void onClickNewGame(View view) {
         Intent gameIntent = new Intent(MainActivity.this, Game.class);
         MainActivity.this.startActivity(gameIntent);
     }
-
-    /**
-     * When the app is reloaded, the values in MainScoreModel are updated
-     * to those stored in the SharedPreferences.
-     */
- /*   @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Access SharedPreferences to see persisted score values
-        //highScoreStr = sharedPref.getString("HIGH_SCORE", "1");
-        //prevScoreStr = shared
-        //int storedHighScore = Integer.valueOf(highScoreStr);
-
-        // Update MainScoreModel to values from SharedPreferences
-        //model.getHighScore().setValue(storedHighScore);
-
-    }*/
 }
