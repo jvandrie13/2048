@@ -2,6 +2,7 @@ package com.example.a2048;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -51,6 +52,11 @@ public class Game extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void GameOver(){
+        Intent intent = new Intent(this, GameOver.class);
+        this.startActivity(intent);
     }
 
     public void updateScore(int i){
