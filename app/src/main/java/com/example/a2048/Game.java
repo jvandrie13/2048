@@ -18,13 +18,20 @@ public class Game extends AppCompatActivity {
     private Grid grid;
     Button newGame;
 
-
+    public static Game game = null;
     GameScoreModel model;
     TextView currScore, highScore;
     String newCurrScore, newHighScore;
+    public Game() {
+        game = this;
+    }
+
 
     // Initialize currentScore to 0 at the start of the game...? Might use diff var.
     int currentScore = 0;
+    public static Game getGame() {
+        return game;
+    }
 
 
     @Override
@@ -46,6 +53,10 @@ public class Game extends AppCompatActivity {
 
     }
 
+    public void updateScore(int i){
+    currentScore =  i;
+    currScore.setText(Integer.toString(currentScore));
+    }
     /**
      * Update the currentScore stored in the GameScoreModel
      * and in SharedPreferences when the score changes during Game.
@@ -56,7 +67,6 @@ public class Game extends AppCompatActivity {
         model.getCurrentScore().setValue(currentScore);
         newCurrScore = String.format(Locale.getDefault(), "%d", currentScore);
         model.getCurrScoreStr().setValue(newCurrScore);
-        grid.getCurrentScore(grid.cards);
 
         // If currentScore > highScore, update the highScore
         if(currentScore > model.getHighScore().getValue()){

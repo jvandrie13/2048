@@ -39,11 +39,11 @@ public class Grid extends GridLayout {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
         super.onSizeChanged(w, h, oldw, oldh);
         int cardWidth = (Math.min(w, h) - 10) / 4;
         addCards(cardWidth, cardWidth);
         startGame();
+        Game.getGame().updateScore(getCurrentScore(cards));
     }
 
     protected void addCards(int cardWidth, int cardHeight) {
@@ -119,6 +119,7 @@ public class Grid extends GridLayout {
 
         if (movedOrMerged) {
             addRandomNum();
+            Game.getGame().updateScore(getCurrentScore(cards));
             checkGameOver();
         }
     }
@@ -149,6 +150,7 @@ public class Grid extends GridLayout {
 
         if (movedOrMerged) {
             addRandomNum();
+            Game.getGame().updateScore(getCurrentScore(cards));
             checkGameOver();
         }
     }
@@ -183,6 +185,7 @@ public class Grid extends GridLayout {
         }
         if (moved) {
             addRandomNum();
+            Game.getGame().updateScore(getCurrentScore(cards));
             checkGameOver();
         }
     }
@@ -217,8 +220,7 @@ public class Grid extends GridLayout {
         }
         if (moved) {
             addRandomNum();
-            getCurrentScore(cards);
-
+            Game.getGame().updateScore(getCurrentScore(cards));
             checkGameOver();
         }
     }
