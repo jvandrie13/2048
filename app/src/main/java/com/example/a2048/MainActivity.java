@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     TextView highScoreView;
     TextView prevScoreView;
     SharedPreferences sharedPref;
+    String highScoreStr;
 
 
     @Override
@@ -35,18 +36,20 @@ public class MainActivity extends AppCompatActivity {
         // Get MainScoreModel to obtain score data
         model = new ViewModelProvider(this).get(MainScoreModel.class);
         sharedPref = getSharedPreferences("application", Context.MODE_PRIVATE);
+
         super.onResume(); // Call to load in values from sharedPreferences
 
+        // Update UI to reflect stored Highscore and Previous score values
         final Observer<Integer> scoreObserver = new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable final Integer newScore) {
+                //highScoreView.setText(sharedPref.getString("HIGH_SCORE", "1"));
                 highScoreView.setText(sharedPref.getString("HIGH_SCORE", "1"));
                 prevScoreView.setText(sharedPref.getString("PREV_SCORE", "1"));
             }
         };
 
         model.getHighScore().observe(this, scoreObserver);
-//        model.getPrevScore().observe(this, scoreObserver);
     }
 
     public void onClickNewGame(View view) {
@@ -58,34 +61,17 @@ public class MainActivity extends AppCompatActivity {
      * When the app is reloaded, the values in MainScoreModel are updated
      * to those stored in the SharedPreferences.
      */
-    @Override
+ /*   @Override
     protected void onResume() {
         super.onResume();
 
         // Access SharedPreferences to see persisted score values
-        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        int storedHighScore = sh.getInt("finalHighScore",0);
+        //highScoreStr = sharedPref.getString("HIGH_SCORE", "1");
+        //prevScoreStr = shared
+        //int storedHighScore = Integer.valueOf(highScoreStr);
 
         // Update MainScoreModel to values from SharedPreferences
-        model.getHighScore().setValue(storedHighScore);
+        //model.getHighScore().setValue(storedHighScore);
 
-    }
-
-    /**
-     * When the app is minimized or closed completely,
-     * the user's high score value is stored in SharedPreferences.
-     */
-    @Override
-    protected void onPause(){
-        super.onPause();
-
-        // Access SharedPreferences to update persisted score values
-        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sh.edit();
-
-        // Update finalHighScore in SharedPreferences
-        myEdit.putInt("finalHighScore", model.getHighScore().getValue());
-        myEdit.apply();
-
-    }
+    }*/
 }
