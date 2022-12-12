@@ -37,10 +37,6 @@ public class Game extends AppCompatActivity {
 
         grid = findViewById(R.id.grid);
         newGame = findViewById(R.id.newGame);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
         newGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,20 +66,20 @@ public class Game extends AppCompatActivity {
     }
 
     /**
-     * When the app is reloaded, the vlaues in GameScoreModel are updated
+     * When the app is reloaded, the values in GameScoreModel are updated
      * based on what is stored in SharedPreferences.
      */
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        // Access SharedPreferences to see persisted score values
-        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
-        int storedHighScore = sh.getInt("finalHighScore", 0);
-
-        // Update MainScoreModel to values from SharedPreferences
-        model.getHighScore().setValue(storedHighScore);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        // Access SharedPreferences to see persisted score values
+//        SharedPreferences sh = getSharedPreferences("MySharedPref", MODE_PRIVATE);
+//        int storedHighScore = sh.getInt("finalHighScore", 0);
+//
+//        // Update MainScoreModel to values from SharedPreferences
+//        model.getHighScore().setValue(storedHighScore);
+//    }
 
     /**
      * When the app is minimized or closed completely,
@@ -101,4 +97,6 @@ public class Game extends AppCompatActivity {
         myEdit.putInt("finalHighScore", model.getHighScore().getValue());
         myEdit.apply();
     }
+
+
 }
