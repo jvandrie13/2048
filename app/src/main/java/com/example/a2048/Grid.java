@@ -3,6 +3,7 @@ package com.example.a2048;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -11,10 +12,12 @@ import android.widget.GridLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class Grid extends GridLayout {
 
+    private static final int GRID_SIZE = 4;
     public static Card[][] cards = new Card[4][4];
     private static List<Point> emptyPoints = new ArrayList<Point>();
     public int num[][] = new int[4][4];
@@ -65,29 +68,42 @@ public class Grid extends GridLayout {
     }
 
     private static void addRandomNum() {
-        emptyPoints.clear();
-        for (int y = 0; y < 4; ++y) {
-            for (int x = 0; x < 4; ++x) {
+        // Create a list of empty positions on the grid
+        List<Point> emptyPoints = new ArrayList<>();
+        for (int y = 0; y < GRID_SIZE; ++y) {
+            for (int x = 0; x < GRID_SIZE; ++x) {
                 if (cards[x][y].getCount() == 0) {
                     emptyPoints.add(new Point(x, y));
                 }
             }
         }
-        Point p = emptyPoints.remove((int) (Math.random() * emptyPoints.size()));
-        cards[p.x][p.y].setCount(Math.random() > 0.1 ? 2 : 4);
+
+        // Choose a random position from the list of empty positions
+        Random random = new Random();
+        Point p = emptyPoints.remove(random.nextInt(emptyPoints.size()));
+
+        // Set the value of the chosen position to either 2 or 4, with a probability of 0.9 and 0.1 respectively
+        cards[p.x][p.y].setCount(random.nextDouble() < 0.9 ? 2 : 4);
     }
 
+
     public static void startGame() {
-        for (int y = 0; y < 4; ++y) {
-            for (int x = 0; x < 4; ++x) {
+        // Reset all cards to 0
+        for (int y = 0; y < GRID_SIZE; ++y) {
+            for (int x = 0; x < GRID_SIZE; ++x) {
                 cards[x][y].setCount(0);
             }
         }
+
+        // Add two random numbers to the grid
         addRandomNum();
         addRandomNum();
     }
 
+
     private void swipeLeft() {
+        boolean movedOrMerged = false;
+
         for (int y = 0; y < 4; ++y) {
             for (int x = 0; x < 3; ++x) {
                 for (int x1 = x + 1; x1 < 4; ++x1) {
@@ -96,24 +112,28 @@ public class Grid extends GridLayout {
                             cards[x][y].setCount(cards[x1][y].getCount());
                             cards[x1][y].setCount(0);
                             --x;
-                            addRandomNum();
-                            checkGameOver();
+                            movedOrMerged = true;
                         } else if (cards[x][y].equals(cards[x1][y])) {
                             cards[x][y].setCount(cards[x][y].getCount() * 2);
                             cards[x1][y].setCount(0);
-//                            MainActivity.getMainActivity().addScore(cards[x][y].getCount());
-                            addRandomNum();
-                            checkGameOver();
+                            movedOrMerged = true;
                         }
                         break;
                     }
                 }
             }
         }
+
+        if (movedOrMerged) {
+            addRandomNum();
+            checkGameOver();
+        }
     }
 
+
     private void swipeRight() {
-        boolean b = false;
+        boolean movedOrMerged = false;
+
         for (int y = 0; y < 4; ++y) {
             for (int x = 3; x > 0; --x) {
                 for (int x1 = x - 1; x1 >= 0; --x1) {
@@ -122,73 +142,93 @@ public class Grid extends GridLayout {
                             cards[x][y].setCount(cards[x1][y].getCount());
                             cards[x1][y].setCount(0);
                             ++x;
-                            addRandomNum();
-                            checkGameOver();
+                            movedOrMerged = true;
                         } else if (cards[x][y].equals(cards[x1][y])) {
                             cards[x][y].setCount(cards[x][y].getCount() * 2);
                             cards[x1][y].setCount(0);
-//                            MainActivity.getMainActivity().addScore(cards[x][y].getCount());
-                            addRandomNum();
-                            checkGameOver();
+                            movedOrMerged = true;
                         }
                         break;
                     }
                 }
             }
         }
+
+        if (movedOrMerged) {
+            addRandomNum();
+            checkGameOver();
+        }
     }
+
 
     private void swipeUp() {
-        boolean b = false;
-        for (int x = 0; x < 4; ++x) {
-            for (int y = 0; y < 3; ++y) {
-                for (int y1 = y + 1; y1 < 4; ++y1) {
-                    if (cards[x][y1].getCount() > 0) {
-                        if (cards[x][y].getCount() == 0) {
-                            cards[x][y].setCount(cards[x][y1].getCount());
-                            cards[x][y1].setCount(0);
-                            --y;
-                            addRandomNum();
-                            checkGameOver();
-                        } else if (cards[x][y].equals(cards[x][y1])) {
-                            cards[x][y].setCount(cards[x][y].getCount() * 2);
-                            cards[x][y1].setCount(0);
-//                            MainActivity.getMainActivity().addScore(cards[x][y].getCount());
-                            addRandomNum();
-                            checkGameOver();
-                        }
-                        break;
+        boolean moved = false;
+        for (int col = 0; col < 4; ++col) {
+            for (int row = 0; row < 3; ++row) {
+                if (cards[col][row].getCount() == 0) {
+                    int aboveRow = row + 1;
+                    while (aboveRow < 4 && cards[col][aboveRow].getCount() == 0) {
+                        aboveRow++;
+                    }
+                    if (aboveRow < 4) {
+                        cards[col][row].setCount(cards[col][aboveRow].getCount());
+                        cards[col][aboveRow].setCount(0);
+                        moved = true;
+                    }
+                } else {
+                    int aboveRow = row + 1;
+                    while (aboveRow < 4 && cards[col][aboveRow].getCount() == 0) {
+                        aboveRow++;
+                    }
+                    if (aboveRow < 4 && cards[col][row].equals(cards[col][aboveRow])) {
+                        cards[col][row].setCount(cards[col][row].getCount() * 2);
+                        cards[col][aboveRow].setCount(0);
+                        moved = true;
                     }
                 }
             }
+        }
+        if (moved) {
+            addRandomNum();
+            checkGameOver();
         }
     }
 
+
     private void swipeDown() {
-        boolean b = false;
-        for (int x = 0; x < 4; ++x) {
-            for (int y = 3; y > 0; --y) {
-                for (int y1 = y - 1; y1 >= 0; --y1) {
-                    if (cards[x][y1].getCount() > 0) {
-                        if (cards[x][y].getCount() == 0) {
-                            cards[x][y].setCount(cards[x][y1].getCount());
-                            cards[x][y1].setCount(0);
-                            ++y;
-                            addRandomNum();
-                            checkGameOver();
-                        } else if (cards[x][y].equals(cards[x][y1])) {
-                            cards[x][y].setCount(cards[x][y].getCount() * 2);
-                            cards[x][y1].setCount(0);
-//                            MainActivity.getMainActivity().addScore(cards[x][y].getCount());
-                            addRandomNum();
-                            checkGameOver();
-                        }
-                        break;
+        boolean moved = false;
+        for (int col = 0; col < 4; ++col) {
+            for (int row = 3; row > 0; --row) {
+                if (cards[col][row].getCount() == 0) {
+                    int belowRow = row - 1;
+                    while (belowRow >= 0 && cards[col][belowRow].getCount() == 0) {
+                        belowRow--;
+                    }
+                    if (belowRow >= 0) {
+                        cards[col][row].setCount(cards[col][belowRow].getCount());
+                        cards[col][belowRow].setCount(0);
+                        moved = true;
+                    }
+                } else {
+                    int belowRow = row - 1;
+                    while (belowRow >= 0 && cards[col][belowRow].getCount() == 0) {
+                        belowRow--;
+                    }
+                    if (belowRow >= 0 && cards[col][row].equals(cards[col][belowRow])) {
+                        cards[col][row].setCount(cards[col][row].getCount() * 2);
+                        cards[col][belowRow].setCount(0);
+                        moved = true;
                     }
                 }
             }
         }
+        if (moved) {
+            addRandomNum();
+            checkGameOver();
+        }
     }
+
+
 
     private void checkGameOver() {
         boolean isOver = true;
@@ -204,12 +244,7 @@ public class Grid extends GridLayout {
             }
         }
         if (isOver) {
-            new AlertDialog.Builder(getContext()).setTitle("Hey").setMessage("There" + "Score Here" + "！").setPositiveButton("Hey", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    startGame();
-                }
-            }).show();
+
         }
     }
 

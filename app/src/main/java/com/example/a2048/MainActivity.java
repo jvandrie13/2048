@@ -1,8 +1,11 @@
 package com.example.a2048;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     MainScoreModel model;
     TextView highScoreView;
     TextView prevScoreView;
+    SharedPreferences sharedPref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +34,19 @@ public class MainActivity extends AppCompatActivity {
 
         // Get MainScoreModel to obtain score data
         model = new ViewModelProvider(this).get(MainScoreModel.class);
+        sharedPref = getSharedPreferences("application", Context.MODE_PRIVATE);
         super.onResume(); // Call to load in values from sharedPreferences
+
+        final Observer<Integer> scoreObserver = new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable final Integer newScore) {
+                highScoreView.setText(sharedPref.getString("HIGH_SCORE", "1"));
+                prevScoreView.setText(sharedPref.getString("PREV_SCORE", "1"));
+            }
+        };
+
+        model.getHighScore().observe(this, scoreObserver);
+//        model.getPrevScore().observe(this, scoreObserver);
     }
 
     public void onClickNewGame(View view) {
