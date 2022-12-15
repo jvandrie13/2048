@@ -11,33 +11,61 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/**
+ * This class has the game logic, it is what allows the user to swipe, and generate new cards
+ * at a random interval
+ */
 public class Grid extends GridLayout {
 
     private static final int GRID_SIZE = 4;
     public static Card[][] cards = new Card[4][4];
 
+    /**
+     * An initialization function
+     * @param context
+     */
     public Grid(Context context) {
         super(context);
         initGrid();
     }
 
+    /**
+     * An initialization function
+     * @param context
+     * @param attrs
+     */
     public Grid(Context context, AttributeSet attrs) {
         super(context, attrs);
         initGrid();
     }
 
+    /**
+     * An initialization function
+     * @param context
+     * @param attrs
+     * @param defStyleAttr
+     */
     public Grid(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initGrid();
     }
 
+    /**
+     * This function initializes the grid on the screen
+     */
     protected void initGrid() {
         setRowCount(4);
         setColumnCount(4);
         setOnTouchListener(new Listener());
     }
 
+    /**
+     * This function starts the game and sets the grid size
+     * @param w
+     * @param h
+     * @param oldw
+     * @param oldh
+     */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -47,6 +75,11 @@ public class Grid extends GridLayout {
         Game.getGame().updateScore(getCurrentScore(cards));
     }
 
+    /**
+     * This function is used to add cards to the grid
+     * @param cardWidth
+     * @param cardHeight
+     */
     protected void addCards(int cardWidth, int cardHeight) {
         this.removeAllViews();
         Card c;
@@ -60,6 +93,9 @@ public class Grid extends GridLayout {
         }
     }
 
+    /**
+     * This function is used to chose a random number to generate the cards
+     */
     private static void addRandomNum() {
         // Create a list of empty positions on the grid
         List<int[]> emptyPositions = new ArrayList<>();
@@ -80,7 +116,9 @@ public class Grid extends GridLayout {
     }
 
 
-
+    /**
+     * This function started the game
+     */
     public static void startGame() {
         // Reset all cards to 0
         for (int y = 0; y < GRID_SIZE; ++y) {
@@ -94,7 +132,9 @@ public class Grid extends GridLayout {
         addRandomNum();
     }
 
-
+    /**
+     * This function is what moves the cards when the user swipes left
+     */
     private void swipeLeft() {
         boolean movedOrMerged = false;
 
@@ -125,7 +165,9 @@ public class Grid extends GridLayout {
         }
     }
 
-
+    /**
+     * This function is what moves the cards when the user swipes right
+     */
     private void swipeRight() {
         boolean movedOrMerged = false;
 
@@ -155,7 +197,9 @@ public class Grid extends GridLayout {
             checkGameOver();
         }
     }
-
+    /**
+     * This function is what moves the cards when the user swipes up
+     */
 
     private void swipeUp() {
         boolean moved = false;
@@ -191,7 +235,9 @@ public class Grid extends GridLayout {
         }
     }
 
-
+    /**
+     * This function is what moves the cards when the user swipes down
+     */
     private void swipeDown() {
         boolean moved = false;
         for (int col = 0; col < 4; ++col) {
@@ -226,7 +272,11 @@ public class Grid extends GridLayout {
         }
     }
 
-
+    /**
+     * This function checks the grid to see if the game over condition is met
+     * The game is over when there are no more ways to combine cards on the screen
+     * and the grid is full
+     */
 
     private void checkGameOver() {
         // Loop through all the cards in the game
@@ -248,6 +298,11 @@ public class Grid extends GridLayout {
         Game.getGame().GameOver();
     }
 
+    /**
+     * This function gets the user's score
+     * @param gameBoard
+     * @return
+     */
     public int getCurrentScore(Card[][] gameBoard) {
         int score = 0;
 
@@ -266,8 +321,9 @@ public class Grid extends GridLayout {
     }
 
 
-
-
+    /**
+     * This is used to "listen" for the user's touch
+     */
 
 
     class Listener implements View.OnTouchListener {

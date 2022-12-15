@@ -10,11 +10,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * This class is used for the Game Over Screen
+ */
+
 public class GameOver extends AppCompatActivity {
 
     TextView highScore, prevScore;
     SharedPreferences sharedPref;
 
+    /**
+     * This is the onCreate function for the Game Over Screen
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +41,10 @@ public class GameOver extends AppCompatActivity {
         player.start();
     }
 
+    /**
+     * This is for the start over button that allows a user to replay the game
+     * @param view
+     */
     public void onClickTryAgain(View view) {
         Intent gameIntent = new Intent(GameOver.this, Game.class);
         GameOver.this.startActivity(gameIntent);

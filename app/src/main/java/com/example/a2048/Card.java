@@ -5,10 +5,18 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+/**
+ * Card class is used to establish the cards or tiles used in the game,
+ * and it sets values and appearances.
+ */
 public class Card extends FrameLayout{
     private int count = 0;
     private TextView name;
 
+    /**
+     * This function is used to set up a card within the game
+     * @param context
+     */
     public Card(Context context){
         super(context);
         name = new TextView(getContext());
@@ -20,10 +28,18 @@ public class Card extends FrameLayout{
         setCount(0);
     }
 
+    /**
+     * This function gets the card count
+     * @return count
+     */
     public int getCount(){
         return count;
     }
 
+    /**
+     * This function sets count, it also establishes the colors for the different tile types
+     * @param count
+     */
     public void setCount(int count){
         this.count = count;
         if(count>0){
@@ -72,6 +88,11 @@ public class Card extends FrameLayout{
         }
     }
 
+    /**
+     * This function is used to check the count of the card
+     * @param card
+     * @return
+     */
     public boolean equals(Card card){
         return getCount()==card.getCount();
     }
